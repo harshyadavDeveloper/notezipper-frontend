@@ -4,6 +4,7 @@ import "./LoginScreen.css";
 import { Button, Col, Form, Row, Toast } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const LoginScreen = () => {
   const [user, setUser] = useState({

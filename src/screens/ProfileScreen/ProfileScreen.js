@@ -1,18 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Card, Container, Form, Row, Col } from 'react-bootstrap';
+import React, { useEffect } from 'react';
+import { Button, Card, Container, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState({
-    name: '',
-    email: '',
-  });
   const username = localStorage.getItem('name');
 
   useEffect(() => {
-    // Fetch user details from localStorage (or API)
-    const email = localStorage.getItem('email');
 
     // if (name && email) {
     //   setUser({ name, email });

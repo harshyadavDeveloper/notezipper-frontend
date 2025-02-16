@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import MainScreen from "../../components/MainScreen";
 import { Button, Card, Form, Toast } from "react-bootstrap";
-import Loading from "../../components/Loading";
-import ErrorMessage from "../../components/ErrorMessage";
 import ReactMarkdown from "react-markdown";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -47,6 +45,7 @@ function CreateNote() {
             }
           }
         );
+        console.log(response);
         resetHandler();
         
         // Show success toast

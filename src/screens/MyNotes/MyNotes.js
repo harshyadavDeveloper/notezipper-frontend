@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MainScreen from "../../components/MainScreen";
 import { Accordion, Badge, Button, Card, Modal, Toast, Form } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -15,7 +15,6 @@ const MyNotes = () => {
   const [editedCategory, setEditedCategory] = useState("");
   const [editedContent, setEditedContent] = useState("");
   const [showToast, setShowToast] = useState(false);
-  const navigate = useNavigate();
   const [showUpdateToast, setShowUpdateToast] = useState(false);
 
 

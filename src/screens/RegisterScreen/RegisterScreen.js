@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import MainScreen from "../../components/MainScreen";
 import { Button, Col, Form, Row, Alert } from "react-bootstrap";
-import { Link, useNavigate, useNavigation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const RegisterScreen = () => {
