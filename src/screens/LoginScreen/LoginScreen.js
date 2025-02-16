@@ -27,9 +27,10 @@ const LoginScreen = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(process.env.REACT_APP_BASE_API_LOCAL);
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/user/login",
+       `${process.env.REACT_APP_BASE_API_LOCAL}/api/user/login`,
         user,
         {
           headers: {
@@ -37,6 +38,7 @@ const LoginScreen = () => {
           },
         }
       );
+
 
       if (response.status === 200) {
         localStorage.setItem("token", response.data.token);

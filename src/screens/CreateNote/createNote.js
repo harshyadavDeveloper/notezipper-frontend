@@ -38,7 +38,8 @@ function CreateNote() {
       const token = localStorage.getItem("token");
       if (data.title && data.content && data.category) {
         const response = await axios.post(
-          "http://localhost:5000/api/notes/create", 
+          // "http://localhost:5000/api/notes/create", 
+          `${process.env.REACT_APP_BASE_API_LOCAL}/api/notes/create`,
           data,
           {
             headers: {
