@@ -25,7 +25,7 @@ const MyNotes = () => {
   // Fetch notes from API
   const getNotes = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/notes`, {
+      const response = await axios.get(`${process.env.REACT_APP_BASE_API_LOCAL}/api/notes`, {
         headers: {
           Authorization: "Bearer " + token,
         },
