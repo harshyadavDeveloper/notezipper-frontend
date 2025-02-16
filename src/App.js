@@ -19,7 +19,9 @@ function App() {
       setIsAuthenticated(!!localStorage.getItem("token"));
     };
 
-    window.addEventListener("storage", checkAuth); // Detects token removal
+    window.addEventListener("storage", checkAuth);
+    // Also check auth status when component mounts
+    checkAuth();
 
     return () => {
       window.removeEventListener("storage", checkAuth);
@@ -32,15 +34,24 @@ function App() {
       <main>
         <Routes>
           {/* Public Routes */}
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={isAuthenticated ? <Navigate to="/mynotes" /> : <LoginScreen />} />
-          <Route path="/register" element={<RegisterScreen />} />
+          <Route 
+            path="/" 
+            element={isAuthenticated ? <Navigate to="/mynotes" /> : <LandingPage />} 
+          />
+          <Route 
+            path="/login" 
+            element={isAuthenticated ? <Navigate to="/mynotes" /> : <LoginScreen />} 
+          />
+          <Route 
+            path="/register" 
+            element={isAuthenticated ? <Navigate to="/mynotes" /> : <RegisterScreen />} 
+          />
 
           {/* Protected Routes (Accessible only when authenticated) */}
           <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
             <Route path="/mynotes" element={<MyNotes />} />
             <Route path="/createnotes" element={<CreateNote />} />
-            <Route path="/myprofile" element = {<Profile />} />
+            <Route path="/myprofile" element={<Profile />} />
           </Route>
 
           {/* Catch-all for undefined routes */}

@@ -29,7 +29,7 @@ const RegisterScreen = () => {
       return;
     }
     try {
-      const response = await axios.post(`http://localhost:5000/api/user/register`, userData, {
+      const response = await axios.post(`${process.env.REACT_APP_BASE_API_LOCAL}/api/user/register`, userData, {
         headers:{
           'Content-Type': 'application/json'
         }

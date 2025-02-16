@@ -58,7 +58,7 @@ const MyNotes = () => {
     if (!noteToDelete) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/notes/delete/${noteToDelete}`, {
+      await axios.delete(`${process.env.REACT_APP_BASE_API_LOCAL}/api/notes/delete/${noteToDelete}`, {
         headers: {
           Authorization: "Bearer " + token,
         },
@@ -88,7 +88,7 @@ const MyNotes = () => {
 
     try {
       await axios.put(
-        `http://localhost:5000/api/notes/update/${noteToEdit}`,
+        `${process.env.REACT_APP_BASE_API_LOCAL}/api/notes/update/${noteToEdit}`,
         {
           title: editedTitle,
           category: editedCategory,
