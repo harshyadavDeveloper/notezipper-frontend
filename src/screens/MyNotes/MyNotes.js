@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import MainScreen from "../../components/MainScreen";
 import { Accordion, Badge, Button, Card, Modal, Toast, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -22,25 +22,24 @@ const MyNotes = () => {
   const token = localStorage.getItem("token");
 
   // Fetch notes from API
-  
 
-  const getNotes = async () => {
+  const getNotes = useCallback(async () => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_BASE_API_LOCAL}/api/notes`, {
         headers: {
           Authorization: "Bearer " + token,
         },
       });
-
       setNotes(Array.isArray(response.data.notes) ? response.data.notes : []);
     } catch (error) {
       console.log(error.message);
     }
-  }; 
-
+  }, [token]); // Only changes when token changes
+  
   useEffect(() => {
     getNotes();
-  }); // Add token as a dependency since it's used in getNotes
+  }, [getNotes]); // Runs only when getNotes changes
+  // Add token as a dependency since it's used in getNotes
 
   // Show delete confirmation modal
   const handleShowModal = (noteId) => {
