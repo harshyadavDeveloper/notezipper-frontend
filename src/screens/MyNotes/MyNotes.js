@@ -22,6 +22,8 @@ const MyNotes = () => {
   const token = localStorage.getItem("token");
 
   // Fetch notes from API
+  
+
   const getNotes = async () => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_BASE_API_LOCAL}/api/notes`, {
@@ -34,11 +36,11 @@ const MyNotes = () => {
     } catch (error) {
       console.log(error.message);
     }
-  };
+  }; 
 
   useEffect(() => {
     getNotes();
-  }, []);
+  }); // Add token as a dependency since it's used in getNotes
 
   // Show delete confirmation modal
   const handleShowModal = (noteId) => {
