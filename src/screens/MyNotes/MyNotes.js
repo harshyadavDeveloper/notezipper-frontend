@@ -3,6 +3,7 @@ import MainScreen from "../../components/MainScreen";
 import { Accordion, Badge, Button, Card, Modal, Toast, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { ClockLoader } from "react-spinners";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const MyNotes = () => {
@@ -16,6 +17,7 @@ const MyNotes = () => {
   const [editedContent, setEditedContent] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [showUpdateToast, setShowUpdateToast] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
 
   const name = localStorage.getItem("name");
@@ -25,14 +27,17 @@ const MyNotes = () => {
 
   const getNotes = useCallback(async () => {
     try {
+      setIsLoading(true);
       const response = await axios.get(`${process.env.REACT_APP_BASE_API_LOCAL}/api/notes`, {
         headers: {
           Authorization: "Bearer " + token,
         },
       });
       setNotes(Array.isArray(response.data.notes) ? response.data.notes : []);
+      setIsLoading(false);
     } catch (error) {
       console.log(error.message);
+      setIsLoading(false);
     }
   }, [token]); // Only changes when token changes
   
@@ -112,92 +117,105 @@ const MyNotes = () => {
 
   return (
     <MainScreen title={`Welcome Back ${name} `}>
-      <Link to="/createnotes">
-        <Toast 
-          show={showToast} 
-          onClose={() => setShowToast(false)}
-          style={{ position: 'fixed', top: 20, right: 20, zIndex: 1 }}
-          bg="success"
-          delay={3000}
-          autohide
-        >
-          <Toast.Header closeButton={false}>
-            <strong className="me-auto">Success</strong>
-          </Toast.Header>
-          <Toast.Body className="text-white">Note Deleted!</Toast.Body>
-        </Toast>
-
-        <Toast 
-  show={showUpdateToast} 
-  onClose={() => setShowUpdateToast(false)}
-  style={{
-    position: 'fixed',
-    top: 20,
-    right: 20,
-    zIndex: 1
-  }}
-  bg="success"
-  delay={3000}
-  autohide
->
-  <Toast.Header closeButton={false}>
-    <strong className="me-auto">Success</strong>
-  </Toast.Header>
-  <Toast.Body className="text-white">Note Updated Successfully!</Toast.Body>
-</Toast>
-
-
-        <Button style={{ marginLeft: 10, marginBottom: 6 }} size="lg">
-          Create New Note
-        </Button>
-      </Link>
-
-      {notes.length === 0 ? (
-        <div style={{ textAlign: "center", marginTop: "20px" }}>
-          No Notes Found. Create your first note!
+      {isLoading ? (
+        <div style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "60vh"
+        }}>
+          <ClockLoader size={50} color={"#123abc"} />
         </div>
       ) : (
-        <Accordion defaultActiveKey="0">
-          {notes.map((note, index) => (
-            <Card key={note._id} style={{ margin: 10 }}>
-              <Accordion.Item eventKey={index.toString()}>
-                <Card.Header style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <Accordion.Button>{note.title}</Accordion.Button>
-                  
-                  <div style={{ display: "flex", marginLeft: "8px", gap: "8px" }}>
-                    <Button 
-                      variant="info" 
-                      onClick={() => handleShowEditModal(note)} // Show edit modal
-                    >
-                      Edit
-                    </Button>
-                    <Button 
-                      variant="danger" 
-                      className="mx-2"
-                      onClick={() => handleShowModal(note._id)}
-                    >
-                      Delete
-                    </Button>
-                  </div>
-                </Card.Header>
+        <>
+          <Link to="/createnotes">
+            <Button style={{ marginLeft: 10, marginBottom: 6 }} size="lg">
+              Create New Note
+            </Button>
+          </Link>
+          
 
-                <Accordion.Body>
-                  <Card.Body>
-                    <h4>
-                      <Badge bg="success">{note.category || "Uncategorized"}</Badge>
-                    </h4>
-                    <blockquote className="blockquote mb-0">
-                      <p>{note.content}</p>
-                      <footer className="blockquote-footer">
-                        Created on <cite title="Source Title">{new Date(note.createdAt).toLocaleDateString()}</cite>
-                      </footer>
-                    </blockquote>
-                  </Card.Body>
-                </Accordion.Body>
-              </Accordion.Item>
-            </Card>
-          ))}
-        </Accordion>
+          <Toast 
+            show={showToast} 
+            onClose={() => setShowToast(false)}
+            style={{ position: 'fixed', top: 20, right: 20, zIndex: 1 }}
+            bg="success"
+            delay={3000}
+            autohide
+          >
+            <Toast.Header closeButton={false}>
+              <strong className="me-auto">Success</strong>
+            </Toast.Header>
+            <Toast.Body className="text-white">Note Deleted!</Toast.Body>
+          </Toast>
+
+          <Toast 
+            show={showUpdateToast} 
+            onClose={() => setShowUpdateToast(false)}
+            style={{
+              position: 'fixed',
+              top: 20,
+              right: 20,
+              zIndex: 1
+            }}
+            bg="success"
+            delay={3000}
+            autohide
+          >
+            <Toast.Header closeButton={false}>
+              <strong className="me-auto">Success</strong>
+            </Toast.Header>
+            <Toast.Body className="text-white">Note Updated Successfully!</Toast.Body>
+          </Toast>
+
+          {notes.length === 0 ? (
+            <div style={{ textAlign: "center", marginTop: "20px" }}>
+              No Notes Found. Create your first note!
+            </div>
+          ) : (
+            <Accordion defaultActiveKey="0">
+              {notes.map((note, index) => (
+                <Card key={note._id} style={{ margin: 10 }}>
+                  <Accordion.Item eventKey={index.toString()}>
+                    <Card.Header style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <Accordion.Button>{note.title}</Accordion.Button>
+                      
+                      <div style={{ display: "flex", marginLeft: "8px", gap: "8px" }}>
+                        <Button 
+                          variant="info" 
+                          onClick={() => handleShowEditModal(note)} // Show edit modal
+                        >
+                          Edit
+                        </Button>
+                        <Button 
+                          variant="danger" 
+                          className="mx-2"
+                          onClick={() => handleShowModal(note._id)}
+                        >
+                          Delete
+                        </Button>
+                      </div>
+                    </Card.Header>
+
+                    <Accordion.Body>
+                      <Card.Body>
+                        <h4>
+                          <Badge bg="success">{note.category || "Uncategorized"}</Badge>
+                        </h4>
+                        <blockquote className="blockquote mb-0">
+                          <p>{note.content}</p>
+                          <footer className="blockquote-footer">
+                            Created on <cite title="Source Title">{new Date(note.createdAt).toLocaleDateString()}</cite>
+                          </footer>
+                        </blockquote>
+                      </Card.Body>
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Card>
+              ))}
+            </Accordion>
+          )}
+        </>
       )}
 
       {/* Delete Confirmation Modal */}

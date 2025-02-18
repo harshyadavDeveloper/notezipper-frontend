@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import MainScreen from "../../components/MainScreen";
-import { Button, Card, Form, Toast } from "react-bootstrap";
+import { Button, Card, Form } from "react-bootstrap";
 import ReactMarkdown from "react-markdown";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import ToastNotification from "../../constants/ToastNotification";
+import { ClockLoader } from "react-spinners";
 
 function CreateNote() {
   const [data, setData] = useState({
@@ -12,6 +14,7 @@ function CreateNote() {
     category: ""
   });
   const [showToast, setShowToast] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleInput = (e) => {
@@ -33,6 +36,7 @@ function CreateNote() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setIsLoading(true);
       const token = localStorage.getItem("token");
       if (data.title && data.content && data.category) {
         const response = await axios.post(
@@ -51,32 +55,35 @@ function CreateNote() {
         // Show success toast
         setShowToast(true);
         navigate('/mynotes');
+        setIsLoading(false);
       }
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
   };
 
   return (
     <MainScreen title="Create a Note">
-       <Toast 
-        show={showToast} 
-        onClose={() => setShowToast(false)}
-        style={{
-          position: 'fixed',
-          top: 20,
-          right: 20,
-          zIndex: 1
-        }}
-        bg="success"
-        delay={3000}
-        autohide
-      >
-        <Toast.Header closeButton={false}>
-          <strong className="me-auto">Success</strong>
-        </Toast.Header>
-        <Toast.Body className="text-white">Note created successfully!</Toast.Body>
-      </Toast>
+      
+      <ToastNotification 
+  show={showToast}  
+  onClose={() => setShowToast(false)} 
+  message="Note created successfully!" 
+  variant="success" 
+/>
+{
+  isLoading ? (
+    <div style={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      height: "60vh"
+    }}>
+      <ClockLoader size={50} color={"#123abc"} />
+    </div>
+  ):
+
       <Card>
         <Card.Header>Create a new Note</Card.Header>
         <Card.Body>
@@ -141,7 +148,7 @@ function CreateNote() {
           Creating on - {new Date().toLocaleDateString()}
         </Card.Footer>
       </Card>
-    </MainScreen>
+    }    </MainScreen>
   );
 }
 

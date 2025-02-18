@@ -78,7 +78,7 @@ const RegisterScreen = () => {
             <Form.Label style={{ marginTop: "8px" }}>Password</Form.Label>
             <Form.Control
               type="password"
-              placeholder="Enter Name"
+              placeholder="Enter Password"
               name="password"
               value={userData.password}
               onChange={handleInput}
