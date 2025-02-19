@@ -129,7 +129,7 @@ const RegisterScreen = () => {
             <Form.Group controlId="formBasicPassword">
               <Form.Label style={{ marginTop: "8px" }}>Password</Form.Label>
               <span style={{ fontSize: "12px", color: "gray", marginLeft: "10px" }}>
-                Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.
+                (Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.)
               </span>
               <Form.Control
                 type="password"
