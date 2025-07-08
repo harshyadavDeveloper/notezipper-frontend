@@ -1,5 +1,5 @@
 
-# Notezipper (Client Side)
+# Notezipper (Client Side).
 
 NoteZipper is a task management web application that allows users to register or log in and create notes to track their daily tasks. Users can add, edit, and delete notes as needed, ensuring an organized workflow. The platform includes a filtering feature that enables users to sort notes based on their creation date, making it easy to find relevant tasks. A secure authentication system ensures data privacy, while a responsive interface enhances usability. NoteZipper aims to simplify task tracking, providing a seamless and efficient note-taking experience to help users stay productive and organized in their daily routines.
 
